@@ -1,6 +1,9 @@
+const CLIENT_ID = '3540346600870120';
+const CLIENT_SECRET = 'seu-client-secret';
+const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com';
 exports.getTo = async (req, res) => {
-    const authUrl = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=1424436969629626&redirect_uri=https://backclickhub-e83be6f85c9d.herokuapp.com`;
-    res.redirect(authUrl);
+  const authURL = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+  res.redirect(authURL);
   };
   
 

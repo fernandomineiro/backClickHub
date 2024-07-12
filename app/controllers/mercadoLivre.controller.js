@@ -1,5 +1,5 @@
 exports.getTo = async (req, res) => {
-    const authUrl = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=5419318378444142&redirect_uri=wYTdXIHZWxlvFWfcVhVoRkTvdBZSfWA0`;
+    const authUrl = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=1424436969629626&redirect_uri=https://backclickhub-e83be6f85c9d.herokuapp.com/`;
     res.redirect(authUrl);
   };
   

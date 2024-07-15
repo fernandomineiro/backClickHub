@@ -67,7 +67,7 @@ exports.listProductClient = async (req, res) => {
 
     const products = await Product.findAll({ where: {  status: 1 } });
 
-    res.send({ lista: products });
+    res.send({ data: products });
 };
 
 exports.delete = async (req, res) => {

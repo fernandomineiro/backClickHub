@@ -17,6 +17,7 @@
   "author": "Click",
   "license": "ISC",
   "dependencies": {
+    "amazon-mws": "^0.0.30",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",

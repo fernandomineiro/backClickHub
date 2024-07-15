@@ -42,7 +42,7 @@ exports.signup = async (req, res) => {
       address: address,
       slug: name,
       image_path: null,
-      status: 0,
+      status: 1,
     })
       .then(user => {
        res.send({ message: "Afiliado criado com sucesso!" });

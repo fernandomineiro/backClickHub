@@ -46,7 +46,7 @@ exports.start = async (req, res) => {
       const accessToken = tokenResponse.data.access_token;
 
       envioEmail(accessToken, 'fernandofitilan@hotmail.com')
-      res.json({ access_token: accessToken });
+      // res.json({ access_token: accessToken });
   } catch (error) {
       res.status(500).json({ error: error.message });
   }
@@ -130,6 +130,7 @@ exports.start = async (req, res) => {
         console.log('Erro ao enviar email:', error);
       } else {
         console.log('Email enviado:', info.response);
+        res.json("enviado");
   
       }
     });

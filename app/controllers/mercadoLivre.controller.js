@@ -1,26 +1,33 @@
-let CLIENT_ID = '214942600183391';
-let CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
-const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
+// let CLIENT_ID = '214942600183391';
+// let CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
+let CLIENT_ID = '';
+let CLIENT_SECRET = '';
+let email = '';
+let REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
 const axios = require('axios');
 exports.start = async (req, res) => {
 
+  CLIENT_ID = req.body.CLIENT_ID
+  CLIENT_SECRET = req.body.CLIENT_SECRET
+  email = req.body.email
+  // = req.body.plan
 
-  // CLIENT_ID = req.body.CLIENT_ID
-  // CLIENT_SECRET = req.body.CLIENT_SECRET
-  // let {CLIENT_ID,  CLIENT_SECRET} = req.body;
-
-  const authURL = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
-  res.redirect(authURL);
+  const authUrl = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+  
+  res.redirect(authUrl);
   };
   
+
+
 
   exports.getToken = async (req, res) => {
     const { code } = req.query;
 
-  
     if (!code) {
       return res.status(400).send('Código de autorização não fornecido.');
     }
+
+    console.log(code)
   
 
     axios.post('https://api.mercadolibre.com/oauth/token', null, {
@@ -35,19 +42,12 @@ exports.start = async (req, res) => {
     .then(response => {
       const accessToken = response.data.access_token;
 
+
+      const novaUrl = 'https://www.google.com';
       res.json({
         message: 'Token de acesso obtido com sucesso',
         accessToken: accessToken
       });
-
-      const novaUrl = `http://localhost:3000/#/integracao/`; // URL para a qual você deseja redirecionar
-      res.redirect(novaUrl);
-
-
-      // res.json({
-      //   message: 'Token de acesso obtido com sucesso',
-      //   accessToken: accessToken
-      // });
     })
     .catch(error => {
       res.status(500).json({

@@ -26,7 +26,13 @@ exports.start = async (req, res) => {
     }
   
 
-    axios.post('https://api.mercadolibre.com/oauth/token', null, {
+    
+  if (!code) {
+    return res.status(400).send('Código de autorização não fornecido.');
+  }
+
+  try {
+    const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {
         grant_type: 'authorization_code',
         client_id: CLIENT_ID,
@@ -34,61 +40,48 @@ exports.start = async (req, res) => {
         code: code,
         redirect_uri: REDIRECT_URI
       }
-    })
-    .then(response => {
-      const accessToken = response.data.access_token;
-
-      const transporter = nodemailer.createTransport({
-        service: 'hotmail',
-        auth: {
-          user: 'contatoclickhub@hotmail.com', // Seu email do Hotmail
-          pass: 'clickhub123@' // Sua senha do Hotmail
-        }
-      });
-      
-      // Configurar os detalhes do email
-      const mailOptions = {
-        from: 'contatoclickhub@hotmail.com', // Seu email do Hotmail
-        to: `${email}`, // Email do destinatário
-        subject: 'Token do Mercado livre',
-        text: `${dados}`,
-        html: `<h1>${accessToken}</h1>` // Corpo do email em HTML
-      };
-      
-      // Enviar o email
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log('Erro ao enviar email:', error);
-        } else {
-          console.log('Email enviado:', info.response);
-    
-        }
-      });
-
-      console.log(accessToken)
-
-      const novaUrl = `http://localhost:3000/#/integracao`; // URL para a qual você deseja redirecionar
-      res.redirect(novaUrl);
-
-
-      
-
-       res.json({
-       message: 'Token de acesso obtido com sucesso',
-       accessToken: accessToken
-       });
-    })
-    .catch(error => {
-
-      const novaUrl = `http://localhost:3000/#/integracao/erro`; // URL para a qual você deseja redirecionar
-      res.redirect(novaUrl);
-      console.log(error.response.data)
-      res.status(500).json({
-        message: 'Erro ao obter o token de acesso',
-       error: error.response.data
-       });
     });
-  };
+
+    const accessToken = response.data.access_token;
+
+    const transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        user: 'contatoclickhub@hotmail.com',
+        pass: 'clickhub123@'
+      }
+    });
+
+    const mailOptions = {
+      from: 'contatoclickhub@hotmail.com',
+      to: email,
+      subject: 'Token do Mercado livre',
+      text: 'Segue o token de acesso:',
+      html: `<h1>${accessToken}</h1>`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('Email enviado com sucesso');
+
+    const novaUrl = `http://localhost:3000/#/integracao`;
+    res.redirect(novaUrl);
+
+    return res.json({
+      message: 'Token de acesso obtido com sucesso',
+      accessToken: accessToken
+    });
+  } catch (error) {
+    console.log('Erro ao obter o token de acesso:', error.response ? error.response.data : error.message);
+
+    const novaUrl = `http://localhost:3000/#/integracao/erro`;
+    res.redirect(novaUrl);
+
+    return res.status(500).json({
+      message: 'Erro ao obter o token de acesso',
+      error: error.response ? error.response.data : error.message
+    });
+  }
+};
   
 
 

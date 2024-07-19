@@ -63,6 +63,8 @@ exports.start = async (req, res) => {
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
         console.log('Erro ao enviar email:', error);
+        const novaUrl = `http://localhost:3000/#/integracao/error`;
+        res.redirect(novaUrl);
       } else {
         console.log('Email enviado:', info.response);
       const novaUrl = `http://localhost:3000/#/integracao/ok`;

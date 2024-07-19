@@ -5,8 +5,8 @@ const axios = require('axios');
 exports.start = async (req, res) => {
 
 
-  CLIENT_ID = req.body.CLIENT_ID
-  CLIENT_SECRET = req.body.CLIENT_SECRET
+  // CLIENT_ID = req.body.CLIENT_ID
+  // CLIENT_SECRET = req.body.CLIENT_SECRET
   // let {CLIENT_ID,  CLIENT_SECRET} = req.body;
 
   const authURL = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
@@ -34,10 +34,15 @@ exports.start = async (req, res) => {
     })
     .then(response => {
       const accessToken = response.data.access_token;
-      res.json({
-        message: 'Token de acesso obtido com sucesso',
-        accessToken: accessToken
-      });
+
+      const novaUrl = `http://localhost:3000/#/integracao/${accessToken}`; // URL para a qual você deseja redirecionar
+      res.redirect(novaUrl);
+
+
+      // res.json({
+      //   message: 'Token de acesso obtido com sucesso',
+      //   accessToken: accessToken
+      // });
     })
     .catch(error => {
       res.status(500).json({

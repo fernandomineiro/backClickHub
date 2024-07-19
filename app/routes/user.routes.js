@@ -19,7 +19,7 @@ module.exports = function(app) {
   app.get("/api/test/all", controller.allAccess);
 
   // integração mercado livre
-  app.post("/api/authmercado", mercadolivre.start);
+  app.get("/api/authmercado", mercadolivre.start);
   app.get("/api/callback", mercadolivre.getToken);
 
   app.post("/api/createbrand", brand.createBrands);

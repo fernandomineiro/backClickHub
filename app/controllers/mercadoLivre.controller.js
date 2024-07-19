@@ -60,16 +60,26 @@ exports.start = async (req, res) => {
       html: `<h1>${accessToken}</h1>`
     };
 
-    await transporter.sendMail(mailOptions);
-    console.log('Email enviado com sucesso');
-
-    const novaUrl = `http://localhost:3000/#/integracao`;
-    res.redirect(novaUrl);
-
-    return res.json({
-      message: 'Token de acesso obtido com sucesso',
-      accessToken: accessToken
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log('Erro ao enviar email:', error);
+      } else {
+        console.log('Email enviado:', info.response);
+      const novaUrl = `http://localhost:3000/#/integracao/ok`;
+      res.redirect(novaUrl);
+      }
     });
+
+    // await transporter.sendMail(mailOptions);
+    // console.log('Email enviado com sucesso');
+
+    // const novaUrl = `http://localhost:3000/#/integracao/ok`;
+    // res.redirect(novaUrl);
+
+    // return res.json({
+    //   message: 'Token de acesso obtido com sucesso',
+    //   accessToken: accessToken
+    // });
   } catch (error) {
     console.log('Erro ao obter o token de acesso:', error.response ? error.response.data : error.message);
 

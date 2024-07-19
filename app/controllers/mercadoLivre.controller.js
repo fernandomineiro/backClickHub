@@ -127,7 +127,7 @@ exports.start = async (req, res) => {
     // Enviar o email
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
-        console.log('Erro ao enviar email:', error);
+        res.json("Não");
       } else {
         console.log('Email enviado:', info.response);
         res.json("enviado");

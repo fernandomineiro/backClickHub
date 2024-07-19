@@ -1,4 +1,4 @@
-const CLIENT_ID = '3540346600870120';
+const CLIENT_ID = '2799571947908418';
 const CLIENT_SECRET = 'seu-client-secret';
 const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com';
 exports.getTo = async (req, res) => {
@@ -17,10 +17,10 @@ exports.getTo = async (req, res) => {
     try {
       const tokenResponse = await axios.post('https://api.mercadolibre.com/oauth/token', querystring.stringify({
         grant_type: 'authorization_code',
-        client_id: '5419318378444142',
-        client_secret: 'wYTdXIHZWxlvFWfcVhVoRkTvdBZSfWA0',
+        client_id: '2799571947908418',
+        client_secret: 'ysUgrTxvYwNbQ4JCYKm372AR9B95MXhN',
         code,
-        redirect_uri: 'https://delivery.icougue.com/',
+        redirect_uri: 'https://backclickhub-e83be6f85c9d.herokuapp.com',
       }), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

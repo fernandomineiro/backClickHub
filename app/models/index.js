@@ -26,10 +26,11 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.brands = require("../models/brand.model.js")(sequelize, Sequelize);
 db.categorys = require("../models/category.model.js")(sequelize, Sequelize);
 db.subCategorys = require("../models/subCategory.model.js")(sequelize, Sequelize);
-
+db.img_products= require("../models/imgProducts.model.js")(sequelize, Sequelize);
 db.product = require("../models/product.model.js")(sequelize, Sequelize);
 db.supplier= require("../models/supplier.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.createClients = require("../models/createClients.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles"

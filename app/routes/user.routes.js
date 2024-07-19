@@ -34,6 +34,7 @@ module.exports = function(app) {
   app.post("/api/createproduct", product.create);
   app.delete("/api/product/:id", product.delete);
   app.put("/api/productinventory/:id", product.updateinventory);
+  app.post("/api/upload", product.uploadImg);
 
   app.post("/api/createcategory", category.createCategory);
   app.put("/api/updatecategory/:id", category.updateCategory)

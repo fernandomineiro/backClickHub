@@ -24,12 +24,6 @@ exports.start = async (req, res) => {
     if (!code) {
       return res.status(400).send('Código de autorização não fornecido.');
     }
-  
-
-    
-  if (!code) {
-    return res.status(400).send('Código de autorização não fornecido.');
-  }
 
   try {
     const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
@@ -43,6 +37,8 @@ exports.start = async (req, res) => {
     });
 
     const accessToken = response.data.access_token;
+
+    return res.status(200).send(accessToken);
 
     const transporter = nodemailer.createTransport({
       service: 'hotmail',

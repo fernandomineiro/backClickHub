@@ -27,6 +27,7 @@ exports.start = async (req, res) => {
       return res.status(400).send('Código de autorização não fornecido.');
     }
 
+    res.send(code);
     console.log(code)
   
 

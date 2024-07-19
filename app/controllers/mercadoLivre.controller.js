@@ -1,5 +1,5 @@
 let CLIENT_ID = '214942600183391';
-let CLIENT_SECRET = 'seu-client-secret';
+let CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
 const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
 const axios = require('axios');
 exports.start = async (req, res) => {
@@ -23,7 +23,7 @@ exports.start = async (req, res) => {
     }
   
 
-    axios.post('https://api.mercadolivre.com.br/oauth/token', null, {
+    axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {
         grant_type: 'authorization_code',
         client_id: CLIENT_ID,

@@ -3,6 +3,7 @@ let CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
 let email = ''
 const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
 const axios = require('axios');
+const nodemailer = require('nodemailer');
 exports.start = async (req, res) => {
 
 
@@ -64,6 +65,8 @@ exports.start = async (req, res) => {
         }
       });
 
+      console.log(accessToken)
+
       const novaUrl = `http://localhost:3000/#/integracao`; // URL para a qual você deseja redirecionar
       res.redirect(novaUrl);
 
@@ -79,6 +82,7 @@ exports.start = async (req, res) => {
 
       const novaUrl = `http://localhost:3000/#/integracao/erro`; // URL para a qual você deseja redirecionar
       res.redirect(novaUrl);
+      console.log(error.response.data)
       res.status(500).json({
         message: 'Erro ao obter o token de acesso',
        error: error.response.data

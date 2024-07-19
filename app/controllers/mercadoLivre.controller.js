@@ -1,4 +1,4 @@
-const CLIENT_ID = '2799571947908418';
+const CLIENT_ID = '214942600183391';
 const CLIENT_SECRET = 'seu-client-secret';
 const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
 exports.start = async (req, res) => {

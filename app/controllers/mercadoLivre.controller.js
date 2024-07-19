@@ -1,19 +1,24 @@
 // let CLIENT_ID = '214942600183391';
 // let CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
-let CLIENT_ID = '';
-let CLIENT_SECRET = '';
-let email = '';
+// let CLIENT_ID = '';
+// let CLIENT_SECRET = '';
+// let email = '';
 let REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
 const axios = require('axios');
 const opn = require('opn');
 const nodemailer = require('nodemailer');
 
+
+let clientData = {};
+
 exports.start = async (req, res) => {
 
-  CLIENT_ID = req.body.CLIENT_ID
-  CLIENT_SECRET = req.body.CLIENT_SECRET
-  email = req.body.email
+  const CLIENT_ID = req.body.CLIENT_ID
+  const CLIENT_SECRET = req.body.CLIENT_SECRET
+  const email = req.body.email
   // = req.body.plan
+
+  clientData = { CLIENT_ID, CLIENT_SECRET, email };
 
   const url = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
   
@@ -23,9 +28,6 @@ exports.start = async (req, res) => {
     console.error(`Erro ao abrir a URL: ${err}`);
 });
   };
-  
-
-
 
   exports.getToken = async (req, res) => {
     const { code } = req.query;
@@ -34,7 +36,7 @@ exports.start = async (req, res) => {
       return res.status(400).send('Código de autorização não fornecido.');
     }
 
-  
+    const { CLIENT_ID, CLIENT_SECRET, email } = clientData;
 
     axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {

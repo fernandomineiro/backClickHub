@@ -1,5 +1,5 @@
-// let CLIENT_ID = '214942600183391';
-// let CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
+const CLIENT_ID = '214942600183391';
+const CLIENT_SECRET = 'qy9QJn4pUWuzvBtDu2VFOjrW9hIp69Os';
 // let CLIENT_ID = '';
 // let CLIENT_SECRET = '';
 // let email = '';
@@ -13,12 +13,6 @@ let clientData = {};
 
 exports.start = async (req, res) => {
 
-  const CLIENT_ID = req.body.CLIENT_ID
-  const CLIENT_SECRET = req.body.CLIENT_SECRET
-  const email = req.body.email
-  // = req.body.plan
-
-  clientData = { CLIENT_ID, CLIENT_SECRET, email };
 
   const url = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
   
@@ -36,7 +30,7 @@ exports.start = async (req, res) => {
       return res.status(400).send('Código de autorização não fornecido.');
     }
 
-    const { CLIENT_ID, CLIENT_SECRET, email } = clientData;
+    const email = 'fernandofitilan@hotmail.com'
 
     axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {

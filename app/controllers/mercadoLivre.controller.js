@@ -35,7 +35,12 @@ exports.start = async (req, res) => {
     .then(response => {
       const accessToken = response.data.access_token;
 
-      const novaUrl = `http://localhost:3000/#/integracao/${accessToken}`; // URL para a qual você deseja redirecionar
+      res.json({
+        message: 'Token de acesso obtido com sucesso',
+        accessToken: accessToken
+      });
+
+      const novaUrl = `http://localhost:3000/#/integracao/`; // URL para a qual você deseja redirecionar
       res.redirect(novaUrl);
 
 

@@ -29,6 +29,7 @@ exports.start = async (req, res) => {
         },
       });
   
+      console.log(access_token, refresh_token, expires_in)
       const { access_token, refresh_token, expires_in } = tokenResponse.data;
       res.json({ access_token, refresh_token, expires_in });
     } catch (error) {

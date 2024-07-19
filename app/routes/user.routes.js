@@ -18,9 +18,8 @@ module.exports = function(app) {
 
   app.get("/api/test/all", controller.allAccess);
 
-
-  app.get("/api/token", mercadolivre.getToken);
-  app.get("/api/to", mercadolivre.start);
+  // integração mercado livre
+  app.post("/api/authmercado", mercadolivre.start);
   app.get("/api/callback", mercadolivre.getToken);
 
   app.post("/api/createbrand", brand.createBrands);

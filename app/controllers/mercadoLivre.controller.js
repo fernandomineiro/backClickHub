@@ -1,41 +1,50 @@
-const CLIENT_ID = '214942600183391';
-const CLIENT_SECRET = 'seu-client-secret';
+let CLIENT_ID = '214942600183391';
+let CLIENT_SECRET = 'seu-client-secret';
 const REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
+const axios = require('axios');
 exports.start = async (req, res) => {
 
 
-  const authURL = `https://auth.mercadolivre.com.ab/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+  CLIENT_ID = req.body.CLIENT_ID
+  CLIENT_SECRET = req.body.CLIENT_SECRET
+  // let {CLIENT_ID,  CLIENT_SECRET} = req.body;
+
+  const authURL = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
   res.redirect(authURL);
   };
   
 
   exports.getToken = async (req, res) => {
     const { code } = req.query;
+
   
     if (!code) {
       return res.status(400).send('Código de autorização não fornecido.');
     }
   
-    try {
-      const tokenResponse = await axios.post('https://api.mercadolivre.com/oauth/token', querystring.stringify({
+
+    axios.post('https://api.mercadolivre.com.br/oauth/token', null, {
+      params: {
         grant_type: 'authorization_code',
-        client_id: '2799571947908418',
-        client_secret: 'ysUgrTxvYwNbQ4JCYKm372AR9B95MXhN',
-        code,
-        redirect_uri: 'https://backclickhub-e83be6f85c9d.herokuapp.com',
-      }), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        code: code,
+        redirect_uri: REDIRECT_URI
+      }
+    })
+    .then(response => {
+      const accessToken = response.data.access_token;
+      res.json({
+        message: 'Token de acesso obtido com sucesso',
+        accessToken: accessToken
       });
-  
-      console.log(access_token, refresh_token, expires_in)
-      const { access_token, refresh_token, expires_in } = tokenResponse.data;
-      res.json({ access_token, refresh_token, expires_in });
-    } catch (error) {
-      console.error('Erro ao obter o token de acesso:', error);
-      res.status(500).send('Erro ao obter o token de acesso.');
-    }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'Erro ao obter o token de acesso',
+        error: error.response.data
+      });
+    });
   };
   
 

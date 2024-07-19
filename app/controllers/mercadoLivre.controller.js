@@ -5,6 +5,9 @@ let CLIENT_SECRET = '';
 let email = '';
 let REDIRECT_URI = 'https://backclickhub-e83be6f85c9d.herokuapp.com/api/callback';
 const axios = require('axios');
+const opn = require('opn');
+const nodemailer = require('nodemailer');
+
 exports.start = async (req, res) => {
 
   CLIENT_ID = req.body.CLIENT_ID
@@ -12,9 +15,13 @@ exports.start = async (req, res) => {
   email = req.body.email
   // = req.body.plan
 
-  const authUrl = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+  const url = `https://auth.mercadolivre.com.br/authorization?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
   
-  res.redirect(authUrl);
+  opn(url).then(() => {
+    console.log(`URL aberta: ${url}`);
+}).catch(err => {
+    console.error(`Erro ao abrir a URL: ${err}`);
+});
   };
   
 
@@ -27,8 +34,6 @@ exports.start = async (req, res) => {
       return res.status(400).send('Código de autorização não fornecido.');
     }
 
-    res.send(code);
-    console.log(code)
   
 
     axios.post('https://api.mercadolibre.com/oauth/token', null, {
@@ -44,7 +49,39 @@ exports.start = async (req, res) => {
       const accessToken = response.data.access_token;
 
 
-      const novaUrl = 'https://www.google.com';
+      const transporter = nodemailer.createTransport({
+        service: 'hotmail',
+        auth: {
+          user: 'contatoclickhub@hotmail.com', // Seu email do Hotmail
+          pass: 'clickhub123@' // Sua senha do Hotmail
+        }
+      });
+      
+      // Configurar os detalhes do email
+      const mailOptions = {
+        from: 'contatoclickhub@hotmail.com', // Seu email do Hotmail
+        to: `${email}`, // Email do destinatário
+        subject: 'Seu token de acesso!',
+        text: `${dados}`,
+        html: `<h1>${accessToken}</h1>` // Corpo do email em HTML
+      };
+      
+      // Enviar o email
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          const novaUrl = 'http://localhost:3000/#/integracao';
+          res.redirect(novaUrl);
+        } else {
+          console.log('Email enviado:', info.response);
+    
+        }
+      });
+
+
+
+
+
+
       res.json({
         message: 'Token de acesso obtido com sucesso',
         accessToken: accessToken

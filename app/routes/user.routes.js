@@ -20,7 +20,8 @@ module.exports = function(app) {
 
 
   app.get("/api/token", mercadolivre.getToken);
-  app.get("/api/to", mercadolivre.getTo);
+  app.get("/api/to", mercadolivre.start);
+  app.get("/api/callback", mercadolivre.getToken);
 
   app.post("/api/createbrand", brand.createBrands);
   app.put("/api/updatebrand/:id", brand.updateBrands)

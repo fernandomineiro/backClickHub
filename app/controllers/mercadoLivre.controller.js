@@ -47,7 +47,25 @@ exports.start = async (req, res) => {
 
       envioEmail(accessToken, 'fernandofitilan@hotmail.com')
 
-      res.redirect('https://google.com');
+      // res.redirect('http://localhost:3000/#/integracao');
+
+      opn(url).then(childProcess => {
+        // Defina um timeout para 3 segundos
+        setTimeout(() => {
+          // Fecha a aba
+          exec(`taskkill /F /PID ${childProcess.pid}`, (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Erro ao fechar a aba: ${error.message}`);
+              return;
+            }
+            console.log('Aba fechada com sucesso');
+          });
+        }, 3000);
+      }).catch(err => {
+        console.error(`Erro ao abrir a aba: ${err.message}`);
+      });
+
+
       // res.json({ access_token: accessToken });
   } catch (error) {
       res.status(500).json({ error: error.message });

